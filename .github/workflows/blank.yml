@@ -1,34 +1,25 @@
-# This is a basic workflow to help you get started with Actions
+name: Theneo Connection
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   update-theneo-docs:
-    name: Update theneo API Docs
-    runs-on: generic-runner
+    name: Update Theneo API Docs
+    runs-on: ubuntu-latest  # Changed from generic-runner
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Test theneo
+      - name: Test Theneo API connectivity
         run: |
-          if curl --silent --head --fail https://api.theneo.io
-          then
-            echo "theneo api is reachable"
+          if curl --silent --head --fail https://api.theneo.io > /dev/null; then
+            echo "✅ Theneo API is reachable"
           else
-            echo "not"
+            echo "❌ Theneo API is not reachable"
             exit 1
           fi
-    
